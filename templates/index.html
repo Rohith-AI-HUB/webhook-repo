@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Webhook Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔗</text></svg>">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🔗 GitHub Webhook Dashboard</h1>
+            <div class="status-indicator">
+                <div class="status-dot" id="status-dot"></div>
+                <span class="status-text" id="status-text">Connecting...</span>
+            </div>
+        </header>
+
+        <div class="controls">
+            <div class="refresh-info">
+                <span>Auto-refresh every 15 seconds</span>
+                <button id="manual-refresh" class="btn-refresh">Refresh Now</button>
+            </div>
+            <div class="event-stats" id="event-stats">
+                <span class="stat-item">Total: <span id="total-count">0</span></span>
+                <span class="stat-item">Push: <span id="push-count">0</span></span>
+                <span class="stat-item">PRs: <span id="pr-count">0</span></span>
+                <span class="stat-item">Merges: <span id="merge-count">0</span></span>
+            </div>
+        </div>
+
+        <main class="main-content">
+            <div class="events-section">
+                <h2>Recent Events</h2>
+                <div class="loading" id="loading">
+                    <div class="spinner"></div>
+                    <span>Loading webhook events...</span>
+                </div>
+                
+                <div class="empty-state" id="empty-state" style="display: none;">
+                    <div class="empty-icon">📭</div>
+                    <h3>No webhook events yet</h3>
+                    <p>Make some changes to your GitHub repository to see events here!</p>
+                    <div class="empty-instructions">
+                        <h4>To generate events:</h4>
+                        <ul>
+                            <li><strong>Push events:</strong> Push code to any branch</li>
+                            <li><strong>Pull request events:</strong> Create or open a pull request</li>
+                            <li><strong>Merge events:</strong> Merge a pull request</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="events-list" id="events-list"></div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>GitHub Webhook Receiver | Last updated: <span id="last-updated">Never</span></p>
+        </footer>
+    </div>
+
+    <!-- Event template -->
+    <template id="event-template">
+        <div class="event-item">
+            <div class="event-icon">
+                <span class="event-type-badge"></span>
+            </div>
+            <div class="event-content">
+                <div class="event-message"></div>
+                <div class="event-meta">
+                    <span class="event-repo"></span>
+                    <span class="event-time"></span>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
